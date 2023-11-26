@@ -1,6 +1,7 @@
 # PizzaPlanet
 Segundo trabalho - Programação para internet 
 
-nomes dos integrantes:
+Nomes dos integrantes:
+
 Micele Natalia Rodrigues de Camargo
 Vitor Augusto Viana

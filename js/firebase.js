@@ -268,7 +268,7 @@ async function carregaPedidosFuncionario() {
           const dados = item.val() // obtém os dados
           const id = item.key // obtém o id
 
-          const botaoExcluir = `<button class='btn btn-sm btn-danger mb-2' onclick='removePedido("${id}")'
+          const botaoExcluir = `<button class='btn btn-sm btn-danger' onclick='removePedido("${id}")'
            title='Excluir o registro atual'>🗑 Excluir</button>`
 
           var mostrar_pizzas = "";
@@ -289,7 +289,7 @@ async function carregaPedidosFuncionario() {
            <td>R$ ${dados.valor_total}</td>
            <td>${dados.forma_pagamento}</td>
            <td>${mostrar_pizzas}</td>
-           <td>${botaoExcluir}<br>${botaoEditar}</td>
+           <td>${botaoExcluir}</td>
         </tr>
         `
 

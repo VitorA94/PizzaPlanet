@@ -55,22 +55,18 @@ function logaGoogle() {
 }
 
 function paginaLoginTipoUsuario(tipo_usuario) {
-  if (localStorage.getItem('usuarioId') == null) {
-
-    if (tipo_usuario == "cliente") {
-      localStorage.setItem("tipo_usuario", "cliente");
-    } else if (tipo_usuario == "funcionario") {
-      localStorage.setItem("tipo_usuario", "funcionario");
-    }
-
-  } else {
-
+  if (localStorage.getItem('usuarioId')) {
     if (tipo_usuario == "cliente") {
       window.location.href = 'pedidos.html'
     } else if (tipo_usuario == "funcionario") {
       window.location.href = 'area_funcionario.html'
     }
-
+  } else {
+    if (tipo_usuario == "cliente") {
+      localStorage.setItem("tipo_usuario", "cliente");
+    } else if (tipo_usuario == "funcionario") {
+      localStorage.setItem("tipo_usuario", "funcionario");
+    }
   }
 }
 
@@ -425,8 +421,8 @@ function calculaValorTotal() {
 }
 
 function redirecionarPedido(pizza) {
-  window.location.href = 'pedidos.html';
   localStorage.setItem('pizzaSelecionada', pizza);
+  paginaLoginTipoUsuario('cliente')
 }
 
 function carregarPizzaSelecionada() {

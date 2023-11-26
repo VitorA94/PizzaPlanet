@@ -105,6 +105,7 @@ function logoutFirebase() {
 
 async function salvaPedido(pedido) {
   let usuarioAtual = firebase.auth().currentUser
+  console.log(usuarioAtual)
   try {
     await firebase.database().ref('pedidos').push({
       ...pedido,

@@ -16,7 +16,7 @@
   <title>Pizza Planet - Novo Pedido</title>
 </head>
 
-<body onload=" verificaLogado(); carregarPizzaSelecionada(); carregaPedidos();">
+<body onload="verificaLogado(); carregarPizzaSelecionada(); carregaPedidos();">
   <nav class="navbar navbar-expand-lg navbar-dark fundo-vermelho">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
@@ -35,10 +35,10 @@
           </li>
         </ul>
         <form class="d-flex">
-
           <div id="imagemUsuario">
-
           </div>
+          <button class="btn btn-danger " type="button" onclick="logoutFirebase()">
+            <i class="bi bi-box-arrow-right"></i>Logout</button>
         </form>
       </div>
     </div>

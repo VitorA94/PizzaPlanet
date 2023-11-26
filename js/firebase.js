@@ -55,10 +55,22 @@ function logaGoogle() {
 }
 
 function paginaLoginTipoUsuario(tipo_usuario) {
-  if (tipo_usuario == "cliente") {
-    localStorage.setItem("tipo_usuario", "cliente");
-  } else if (tipo_usuario == "funcionario") {
-    localStorage.setItem("tipo_usuario", "funcionario");
+  if (localStorage.getItem('usuarioId') == null) {
+
+    if (tipo_usuario == "cliente") {
+      localStorage.setItem("tipo_usuario", "cliente");
+    } else if (tipo_usuario == "funcionario") {
+      localStorage.setItem("tipo_usuario", "funcionario");
+    }
+
+  } else {
+
+    if (tipo_usuario == "cliente") {
+      window.location.href = 'pedidos.html'
+    } else if (tipo_usuario == "funcionario") {
+      window.location.href = 'area_funcionario.html'
+    }
+
   }
 }
 
@@ -92,6 +104,7 @@ function logoutFirebase() {
 }
 
 async function salvaPedido(pedido) {
+  let usuarioAtual = firebase.auth().currentUser
   try {
     await firebase.database().ref('pedidos').push({
       ...pedido,
@@ -191,29 +204,71 @@ document.getElementById('formPedido').addEventListener('submit', function (event
 
 async function carregaPedidos() {
   const tabela = document.getElementById('dadosTabela')
-  //const usuarioAtual = localStorage.getItem('usuarioId')
+  const usuarioAtual = localStorage.getItem('usuarioId')
 
   await firebase.database().ref('pedidos').orderByChild('nome_cliente')
     .on('value', (snapshot) => {
       //Limpamos a tabela
       tabela.innerHTML = ``
       if (!snapshot.exists()) { //não existe o snapshot?
-        tabela.innerHTML = `<tr class='table-danger'><td colspan='4'>Ainda não existe nenhum registro cadastrado.</td></tr>`
+        tabela.innerHTML = `<tr class='table-danger'><td colspan='4'>Ainda não existe nenhum pedido cadastrado.</td></tr>`
       } else { //se existir o snapshot, montamos a tabela
         snapshot.forEach(item => {
           const dados = item.val() // obtém os dados
           const id = item.key // obtém o id
 
-          //const isUsuarioAtual = (dados.usuarioInclusao.uid === usuarioAtual)
-          const botaoExcluir = true
-            ? `<button class='btn btn-sm btn-danger mb-2' onclick='removePedido("${id}")'
-           title='Excluir o registro atual'>🗑 Excluir</button>`
-            : `🚫Indisponível`
+          const isUsuarioAtual = (dados.dadosUsuario.uid === usuarioAtual)
 
-          const botaoEditar = true
-            ? `<button class='btn btn-sm btn-warning' onclick='carregaPedidoAtualizar("${id}")'
+          if (isUsuarioAtual) {
+            const botaoExcluir = `<button class='btn btn-sm btn-danger mb-2' onclick='removePedido("${id}")'
+           title='Excluir o registro atual'>🗑 Excluir</button>`
+
+            const botaoEditar = `<button class='btn btn-sm btn-warning' onclick='carregaPedidoAtualizar("${id}")'
            title='Editar o registro atual'>📝 Editar</button>`
-            : `🚫Indisponível`
+
+            var mostrar_pizzas = "";
+
+            for (var i = 0; i < dados.pizzas.length; i++) {
+              if (i != 0) {
+                mostrar_pizzas += "<br>"
+              }
+              mostrar_pizzas += `${(i + 1)}. ${dados.pizzas[i].nome_pizza}`
+            }
+
+            tabela.innerHTML += `
+        <tr>
+           <td>${dados.nome_cliente}</td>
+           <td>${dados.cep}</td>
+           <td>${dados.endereco}</td>
+           <td>${dados.numero}</td>
+           <td>R$ ${dados.valor_total}</td>
+           <td>${dados.forma_pagamento}</td>
+           <td>${mostrar_pizzas}</td>
+           <td>${botaoExcluir}<br>${botaoEditar}</td>
+        </tr>
+        `
+          }
+        })
+      }
+    })
+}
+
+async function carregaPedidosFuncionario() {
+  const tabela = document.getElementById('dadosTabela')
+
+  await firebase.database().ref('pedidos').orderByChild('nome_cliente')
+    .on('value', (snapshot) => {
+      //Limpamos a tabela
+      tabela.innerHTML = ``
+      if (!snapshot.exists()) { //não existe o snapshot?
+        tabela.innerHTML = `<tr class='table-danger'><td colspan='4'>Ainda não existe nenhum pedido cadastrado.</td></tr>`
+      } else { //se existir o snapshot, montamos a tabela
+        snapshot.forEach(item => {
+          const dados = item.val() // obtém os dados
+          const id = item.key // obtém o id
+
+          const botaoExcluir = `<button class='btn btn-sm btn-danger mb-2' onclick='removePedido("${id}")'
+           title='Excluir o registro atual'>🗑 Excluir</button>`
 
           var mostrar_pizzas = "";
 
@@ -230,12 +285,13 @@ async function carregaPedidos() {
            <td>${dados.cep}</td>
            <td>${dados.endereco}</td>
            <td>${dados.numero}</td>
-           <td>${dados.valor_total}</td>
+           <td>R$ ${dados.valor_total}</td>
            <td>${dados.forma_pagamento}</td>
            <td>${mostrar_pizzas}</td>
            <td>${botaoExcluir}<br>${botaoEditar}</td>
         </tr>
         `
+
         })
       }
     })
@@ -270,7 +326,6 @@ async function atualizaPedido(id, pedido) {
       })
   }
 }
-
 
 function carregaPedidoAtualizar(id) {
   if (confirm("Deseja editar as informações do pedido?")) {

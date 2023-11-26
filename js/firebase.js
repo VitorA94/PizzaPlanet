@@ -40,10 +40,10 @@ function logaGoogle() {
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
 
-      if (localStorage.getItem("tipo_usuario") == "cliente") {
+      if (localStorage.getItem('tipo_usuario') == "cliente") {
         window.location.href = 'pedidos.html'
       }
-      else if (localStorage.getItem("tipo_usuario") == "funcionario") {
+      else if (localStorage.getItem('tipo_usuario') == "funcionario") {
         window.location.href = 'area_funcionario.html'
       } else {
         console.log("Erro ao verificar o tipo de usuário")
@@ -55,6 +55,8 @@ function logaGoogle() {
 }
 
 function paginaLoginTipoUsuario(tipo_usuario) {
+  localStorage.setItem('tipo_usuario', tipo_usuario);
+
   if (localStorage.getItem('usuarioId')) {
     if (tipo_usuario == "cliente") {
       window.location.href = 'pedidos.html'
@@ -62,11 +64,7 @@ function paginaLoginTipoUsuario(tipo_usuario) {
       window.location.href = 'area_funcionario.html'
     }
   } else {
-    if (tipo_usuario == "cliente") {
-      localStorage.setItem("tipo_usuario", "cliente");
-    } else if (tipo_usuario == "funcionario") {
-      localStorage.setItem("tipo_usuario", "funcionario");
-    }
+    window.location.href = 'login.html'
   }
 }
 

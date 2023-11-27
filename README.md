@@ -1,6 +1,6 @@
 # Pizza Planet
+Trabalho de Programação para Internet
 
 Nomes: 
-
-- m
-- Vitor
+- Micele Natalia Rodrigues de Camargo
+- Vitor Augusto Alves Viana

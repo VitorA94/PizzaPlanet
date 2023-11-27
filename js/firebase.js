@@ -1,31 +1,13 @@
 const firebaseConfig = {
-
-  apiKey: "AIzaSyC146UcYNh5awrpzmEFk08wdHz8zB_fdNs",
-
-  authDomain: "fir-94386.firebaseapp.com",
-
-  databaseURL: "https://fir-94386.firebaseio.com",
-
-  projectId: "fir-94386",
-
-  storageBucket: "fir-94386.appspot.com",
-
-  messagingSenderId: "294986841577",
-
-  appId: "1:294986841577:web:88e5a2ccdae1518d541f78"
-
-};
-
-
-/*const firebaseConfig = {
   apiKey: "AIzaSyBevZByRCod70nS5O6zJJJSOuss_-dCl7o",
   authDomain: "pizzaplanet-4fb08.firebaseapp.com",
+  databaseURL: "https://pizzaplanet-4fb08-default-rtdb.firebaseio.com",
   projectId: "pizzaplanet-4fb08",
   storageBucket: "pizzaplanet-4fb08.appspot.com",
   messagingSenderId: "129992450982",
   appId: "1:129992450982:web:3b57dca4ca5e8748742567",
   measurementId: "G-FS2ET8STHR"
-};*/
+};
 
 //Inicializando o Firebase
 firebase.initializeApp(firebaseConfig)
